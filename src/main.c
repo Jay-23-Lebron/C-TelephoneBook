@@ -27,10 +27,21 @@ void addcontact(){
 	
 	count++;
 	
-	printf("√联系人添加成功！\n");
+	printf("√联系人添加成功！\n");	
+}
+
+void showAllcontacts(){
+	if(count==0){
+		printf("通讯录里还没有联系人，请先新建！\n");
+		return; 
+	}
 	
-	
-	
+	printf("\n==============全部联系人列表===============\n");
+	int i; 
+	for(i=0;i<count;i++){
+		printf("序号 %d  姓名：%s  手机号：%s\n",i+1,contacts[i].name,contacts[i].phone);
+	}
+	printf("=============================================\n");
 }
 
 int main(){
@@ -66,7 +77,7 @@ int main(){
 		    printf("->进入查找联系人\n");
 			break;
 		case 5:
-		    printf("->显示所有联系人\n");
+		    showAllcontacts();
 			break;
 		case 0:
 		    printf("再见！\n");
