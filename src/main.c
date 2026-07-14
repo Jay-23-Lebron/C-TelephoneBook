@@ -44,6 +44,30 @@ void showAllcontacts(){
 	printf("=============================================\n");
 }
 
+void searchcontact(){
+	char searchName[NAME_LEN];
+	
+	printf("Please enter the contact name you want to search£º\n");
+	scanf("%s",searchName);
+	
+	int isFind=0;
+	int i;
+	for(i=0;i<count;i++){
+		if(strcmp(contacts[i].name,searchName)==0){
+			printf("\n ¡ÌMatching contact found£º\n");
+			printf("Index %d  Name: %s  Phone Number: %s\n",i+1,contacts[i].name,contacts[i].phone);
+			isFind=1; 
+		}
+	}
+	
+	if(isFind==0){
+	printf("\n No contact with this name exists in the address book!\n");
+  }
+	
+}
+
+
+
 int main(){
 	while(1){
 		
@@ -74,7 +98,7 @@ int main(){
 		    printf("->Enter contact modification page\n");
 			break;
 		case 4:
-		    printf("->Enter contact search page\n");
+		    searchcontact();
 			break;
 		case 5:
 		    showAllcontacts();
