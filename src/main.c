@@ -66,6 +66,32 @@ void searchcontact(){
 	
 }
 
+void delcontact(){
+	char delName[NAME_LEN];
+	
+	printf("Please enter the name of contact to delete£º");
+	scanf("%s",delName);
+	
+	int isFind=0;
+	int i,j;
+	
+	for(i=0;i<count;i++){
+		if(strcmp(contacts[i].name,delName)==0){
+			for(j=i;j<count-1;j++){
+				contacts[j]=contacts[j+1];
+			}
+			count--;
+			isFind=1;
+			printf("contact deleted successfully£¡\n");
+			break;
+		}
+	}
+	if(isFind==0){
+		printf("Target contact not found, deletion failed£¡\n");
+	}
+	
+}
+
 
 
 int main(){
@@ -92,7 +118,7 @@ int main(){
 			addcontact();
 		    break;
 		case 2:
-		    printf("->Enter contact deletion page\n");
+		    delcontact();
 			break;
 		case 3:
 		    printf("->Enter contact modification page\n");
