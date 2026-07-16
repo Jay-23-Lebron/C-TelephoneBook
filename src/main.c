@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<string.h>
 
-#define MAX 100
+#define MAX 20
 #define NAME_LEN 20
 #define PHONE_LEN 15
 
@@ -15,7 +15,7 @@ int count=0;
 
 void addcontact(){
 	if(count>=MAX){
-		printf("Contact list full, cannot add new contact!\n");
+		printf("Contact list is full (max capacity: 20 contacts), cannot add new contacts!\n");
 		return;
 	}
 	
@@ -27,7 +27,7 @@ void addcontact(){
 	
 	count++;
 	
-	printf("¡ÌContact added successfully!\n");	
+	printf("Contact added successfully!\n");	
 }
 
 void showAllcontacts(){
