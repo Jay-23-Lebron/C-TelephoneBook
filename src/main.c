@@ -9,6 +9,7 @@ typedef struct{
 	char name[NAME_LEN];
 	char phone[PHONE_LEN];
 }Contact;
+//Use struct array to store all contact information
 
 Contact contacts[MAX];
 int count=0;
