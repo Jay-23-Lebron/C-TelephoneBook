@@ -14,6 +14,19 @@ typedef struct{
 Contact contacts[MAX];
 int count=0;
 
+int checkphone(char phone[]){
+	if(strlen(phone)!=11){
+		return 0;
+	}
+	int k;
+	for(k=0;phone[k]!='\0';k++){
+		if(phone[k]<'\0'||phone[k]>'\9'){
+			return 0;
+		}
+	}
+	return 1;
+}
+
 void addcontact(){
 	if(count>=MAX){
 		printf("Contact list is full (max capacity: 20 contacts), cannot add new contacts!\n");
@@ -25,6 +38,11 @@ void addcontact(){
 	
 	printf("Please enter contact phone number:");
 	scanf("%s",contacts[count].phone);
+	
+	if(checkphone(contacts[count].phone==0)){
+		printf("Invalid mobile number! Must be 11 digits. Addition failed!\n");
+		return;
+	}
 	
 	count++;
 	
@@ -113,7 +131,6 @@ int main(){
 	printf("Please enter your option:");
 	scanf(" %d",&choice);
 	
-	
 	switch(choice){
 		case 1:
 			addcontact();
@@ -141,3 +158,44 @@ int main(){
 	
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
