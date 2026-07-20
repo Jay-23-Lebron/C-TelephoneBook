@@ -39,7 +39,7 @@ void addcontact(){
 	printf("Please enter contact phone number:");
 	scanf("%s",contacts[count].phone);
 	
-	if(checkphone(contacts[count].phone==0)){
+	if(checkphone(contacts[count].phone)==0){
 		printf("Invalid mobile number! Must be 11 digits. Addition failed!\n");
 		return;
 	}
@@ -111,7 +111,12 @@ void delcontact(){
 	
 }
 
-
+void countcontacts(){
+	printf("\n====Contact Count Statistics====\n");
+	printf("Total existing contacts£º%d",count);
+	printf("Maximum capacity of address book£º%d",MAX);
+	printf("Remaining available slots£º%d",MAX-count);
+}
 
 int main(){
 	while(1){
@@ -124,6 +129,7 @@ int main(){
 	printf("         3.Edit Contact             \n");
 	printf("         4.Search Contact           \n");
 	printf("         5.Show All Contacts        \n");
+	printf("         6.Contacts Quantity Statistics\n");
 	printf("         0.Exit Contact List        \n");
 	printf("=======================================\n");
 	
@@ -146,6 +152,9 @@ int main(){
 			break;
 		case 5:
 		    showAllcontacts();
+			break;
+		case 6:
+			countcontacts();
 			break;
 		case 0:
 		    printf("Goodbye£¡\n");
