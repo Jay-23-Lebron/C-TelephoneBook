@@ -69,6 +69,11 @@ void searchcontact(){
 	printf("Please enter the contact name you want to search£º\n");
 	scanf("%s",searchName);
 	
+	if(count==0){
+		printf("Search failed:The address book has no contacts stored yet.\n");
+		printf("Tip:You can create a new contact via option 1 in menu");
+	}
+	
 	int isFind=0;
 	int i;
 	for(i=0;i<count;i++){
@@ -80,7 +85,11 @@ void searchcontact(){
 	}
 	
 	if(isFind==0){
-	printf("\n No contact with this name exists in the address book!\n");
+	printf("\n No contact named %s exists in the address book!\n",searchName);
+	printf("Currently total stored contacts:%d\n",count);
+	printf("Tips:\n");
+	printf("1.Check if you entered the name correctly(case sensitively)\n");
+	printf("2.Use option 1 to add this new contact if you needed\n");
   }
 	
 }
