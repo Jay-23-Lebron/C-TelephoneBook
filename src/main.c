@@ -34,7 +34,7 @@ int count=0;// Counter: record current total contacts
  * @param phone: input phone string waiting for check
  * @return int 1 = legal 11-digit pure number; 0 = illegal number
  */
-int checkphone(char phone[]){
+int checkPhone(char phone[]){
 	// Judge if the digit length is exactly 11
 	if(strlen(phone)!=11){
 		return 0;
@@ -52,7 +52,7 @@ int checkphone(char phone[]){
 /**
  * @brief Create and save new contact
  */
-void addcontact(){
+void addContact(){
 	// Judge if contact storage reaches maximum limits
 	if(count>=MAX){
 		printf("Contact list is full (max capacity: 20 contacts), cannot add new contacts!\n");
@@ -60,14 +60,14 @@ void addcontact(){
 	}
 	
 	printf("Please enter contact name:");
-	scanf("%s",contacts[count].name);
+	scanf("%19s",contacts[count].name);
 	
 	printf("Please enter contact phone number:");
-	scanf("%s",contacts[count].phone);
+	scanf("%14s",contacts[count].phone);
 	
 	// Call validation function to check phone format
-	if(checkphone(contacts[count].phone)==0){
-		printf("Invalid mobile number! Must be 11 digits. Addition failed!\n");
+	if(checkPhone(contacts[count].phone)==0){
+		printf("Invalid mobile number! Must be exactly 11 pure digits without letters/symbols. Addition failed!\n");
 		return;
 	}
 	// Valid data, total contact number +1
@@ -78,7 +78,7 @@ void addcontact(){
 /**
  * @brief Print all saved contacts list
  */
-void showAllcontacts(){
+void showAllContacts(){
 	// Judge empty address book
 	if(count==0){
 		printf("No contacts stored in list, please create a new contact first£¡\n");
@@ -96,7 +96,7 @@ void showAllcontacts(){
 /**
  * @brief Search contact by full name, optimize empty & no-match prompt
  */
-void searchcontact(){
+void searchContact(){
 	char searchName[NAME_LEN];
 	
 	printf("Please enter the contact name you want to search£º\n");
@@ -134,9 +134,12 @@ void searchcontact(){
 /**
  * @brief Delete target contact by name
  */
-void delcontact(){
-	char delName[NAME_LEN];
+void delContact(){
+	if(count==0){
+		printf("No contacts stored in address book, deletion operation unavailable!\n");
+	}
 	
+	char delName[NAME_LEN];
 	printf("Please enter the name of contact to delete£º");
 	scanf("%s",delName);
 	
@@ -166,11 +169,11 @@ void delcontact(){
 /**
  * @brief Count & print contact storage statistics
  */
-void countcontacts(){
+void countContacts(){
 	printf("\n====Contact Count Statistics====\n");
-	printf("Total existing contacts£º%d",count);
-	printf("Maximum capacity of address book£º%d",MAX);
-	printf("Remaining available slots£º%d",MAX-count);
+	printf("Total existing contacts£º%d\n",count);
+	printf("Maximum capacity of address book£º%d\n",MAX);
+	printf("Remaining available slots£º%d\n",MAX-count);
 }
 
 /**
@@ -195,26 +198,27 @@ int main(){
 	int choice;
 	printf("Please enter your option:");
 	scanf(" %d",&choice);
+	while(getchar()!='\n');
 	
 	// Branch processing for different menu options
 	switch(choice){
 		case 1:
-			addcontact();
+			addContact();
 		    break;
 		case 2:
-		    delcontact();
+		    delContact();
 			break;
 		case 3:
 		    printf("->Enter contact modification page\n");
 			break;
 		case 4:
-		    searchcontact();
+		    searchContact();
 			break;
 		case 5:
-		    showAllcontacts();
+		    showAllContacts();
 			break;
 		case 6:
-			countcontacts();
+			countContacts();
 			break;
 		case 0:
 		    printf("Goodbye£¡\n");
