@@ -88,9 +88,9 @@ void showAllContacts(){
 	printf("\n============== All Contact List ===============\n");
 	int i; 
 	for(i=0;i<count;i++){
-		printf("Index %d  Name£º%s  Phone Number£º%s\n",i+1,contacts[i].name,contacts[i].phone);
+		printf("Index %d | Name£º%s | Phone Number£º%s\n",i+1,contacts[i].name,contacts[i].phone);
 	}
-	printf("=============================================\n");
+	printf("\n===============================================\n");
 }
 
 /**
