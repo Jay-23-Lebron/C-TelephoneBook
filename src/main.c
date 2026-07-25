@@ -7,11 +7,22 @@
 
 #include<stdio.h>
 #include<string.h>
+#include<stdlib.h>
 
 // Macro definition for length limit
 #define MAX 20 // Maximum storage capacity of contacts
 #define NAME_LEN 20 // Max character length of contact name
 #define PHONE_LEN 15 // Max character length of phone number
+
+/**
+ * @brief Linked list node for contact storage
+ * Replace fixed-size array to store contact information dynamically
+ */
+typedef struct ContactNode{
+	char name[NAME_LEN];
+	char phone[PHONE_LEN];
+	struct ContactNode* next;
+}ContactNode;
 
 /**
  * Contact structure: store single contact data
@@ -28,6 +39,7 @@ typedef struct{
 Contact contacts[MAX];// Array to save all contact objects
 int count=0;// Counter: record current total contacts
 
+ContactNode* head=NULL;
 
 /**
  * @brief Validate phone number format
