@@ -61,30 +61,48 @@ int checkPhone(char phone[]){
 	return 1;
 }
 
+ContactNode* createNode(){
+	ContactNode* newNode=(ContactNode*)malloc(sizeof(ContactNode));
+	if (newNode == NULL)
+    {
+        printf("Memory allocation failed, create contact failed!\n");
+        return NULL;
+    }
+    newNode->next = NULL;
+    return newNode;
+}
+
 /**
- * @brief Create and save new contact
+ * @brief Add a new contact to linked list
+ * Receive user input of contact info, verify phone format, then append node to the end of linked list
  */
 void addContact(){
-	// Judge if contact storage reaches maximum limits
-	if(count>=MAX){
-		printf("Contact list is full (max capacity: 20 contacts), cannot add new contacts!\n");
-		return;
-	}
-	
-	printf("Please enter contact name:");
-	scanf("%19s",contacts[count].name);
-	
-	printf("Please enter contact phone number:");
-	scanf("%14s",contacts[count].phone);
-	
-	// Call validation function to check phone format
-	if(checkPhone(contacts[count].phone)==0){
-		printf("Invalid mobile number! Must be exactly 11 pure digits without letters/symbols. Addition failed!\n");
-		return;
-	}
-	// Valid data, total contact number +1
-	count++;
-	printf("Contact added successfully!\n");	
+	ContactNode* newNode = createNode();
+    if(newNode == NULL) return;
+
+    printf("Please enter contact name:");
+    scanf("%19s", newNode->name);
+    printf("Please enter contact phone number:");
+    scanf("%14s", newNode->phone);
+
+    if(checkphone(newNode->phone)==0){
+        printf("Invalid mobile number! Must be 11 digits. Addition failed!\n");
+        free(newNode); 
+        return;
+    }
+
+    if(head == NULL)
+    {
+        head = newNode;
+    }
+    else
+    {
+        ContactNode* p = head;
+        while(p->next != NULL) p = p->next;
+        p->next = newNode;
+    }
+    count++;
+    printf("Contact added successfully!\n");
 }
 
 /**
@@ -144,32 +162,36 @@ void searchContact(){
 }
 
 /**
- * @brief Delete target contact by name
+ * @brief Delete contact node by matched name
+ * Traverse linked list to find target contact, adjust pointer relation and release memory, update total count
  */
 void delContact(){
-	if(count==0){
+	if(head==NULL){
 		printf("No contacts stored in address book, deletion operation unavailable!\n");
+		return;
 	}
 	
 	char delName[NAME_LEN];
 	printf("Please enter the name of contact to delete£º");
 	scanf("%s",delName);
 	
-	int isFind=0;
-	int i,j;
-	
-	// Loop to find matching contact
-	for(i=0;i<count;i++){
-		if(strcmp(contacts[i].name,delName)==0){
-			// Overwrite current contact with next data to complete deletion
-			for(j=i;j<count-1;j++){
-				contacts[j]=contacts[j+1];
-			}
-			count--; // Reduce total contact counter
-			isFind=1;
-			printf("contact deleted successfully£¡\n");
-			break;
-		}
+	ContactNode* p = head;
+    ContactNode* prev = NULL;
+    int isFind=0;
+    while(p != NULL)
+    {
+        if(strcmp(p->name, delName)==0)
+        {
+            if(prev == NULL) head = p->next;
+            else prev->next = p->next;
+            free(p);
+            count--;
+            isFind=1;
+            printf("contact deleted successfully! \n");
+            break;
+        }
+        prev = p;
+        p = p->next;
 	}
 	// Prompt when target name not found
 	if(isFind==0){
