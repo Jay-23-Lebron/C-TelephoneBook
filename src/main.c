@@ -110,15 +110,17 @@ void addContact(){
  */
 void showAllContacts(){
 	// Judge empty address book
-	if(count==0){
+	if(head==NULL){
 		printf("No contacts stored in list, please create a new contact first£¡\n");
 		return; 
 	}
 	
 	printf("\n============== All Contact List ===============\n");
-	int i; 
-	for(i=0;i<count;i++){
-		printf("Index %d | Name£º%s | Phone Number£º%s\n",i+1,contacts[i].name,contacts[i].phone);
+	ContactNode* p=head;
+	int index=1;
+	while(p!=NULL){
+		printf(Index %d | Name %s | Phone Number %d,index,p->name,p->phone);
+		p=p->next;
 	}
 	printf("\n===============================================\n");
 }
@@ -130,24 +132,25 @@ void searchContact(){
 	char searchName[NAME_LEN];
 	
 	printf("Please enter the contact name you want to search£º\n");
-	scanf("%s",searchName);
+	scanf("%19s",searchName);
 	
 	// Optimize prompt: handle empty address book separately
-	if(count==0){
+	if(head==NULL){
 		printf("Search failed:The address book has no contacts stored yet.\n");
 		printf("Tip:You can create a new contact via option 1 in menu");
 		return;
 	}
 	
 	// Traverse all contacts to match name
+	ContactNode* p=head;
 	int isFind=0;
-	int i;
-	for(i=0;i<count;i++){
+	while(p!=NULL){
 		if(strcmp(contacts[i].name,searchName)==0){
-			printf("\n ¡ÌMatching contact found£º\n");
+			printf("\n Matching contact found£º\n");
 			printf("Index %d  Name: %s  Phone Number: %s\n",i+1,contacts[i].name,contacts[i].phone);
 			isFind=1; 
 		}
+		p=p->next;
 	}
 	
 	// Optimized no-result prompt, show search keyword & suggestions
@@ -206,8 +209,8 @@ void delContact(){
 void countContacts(){
 	printf("\n====Contact Count Statistics====\n");
 	printf("Total existing contacts£º%d\n",count);
-	printf("Maximum capacity of address book£º%d\n",MAX);
-	printf("Remaining available slots£º%d\n",MAX-count);
+	printf("Storage: Dynamic linked list, no fixed maximum limit\n");
+	printf("\n================================\n");
 }
 
 /**
