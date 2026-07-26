@@ -24,22 +24,25 @@ typedef struct ContactNode{
 	struct ContactNode* next;
 }ContactNode;
 
-/**
- * Contact structure: store single contact data
- * @member name: contact name text
- * @member phone: contact mobile number string
- */
-
-typedef struct{
-	char name[NAME_LEN];
-	char phone[PHONE_LEN];
-}Contact;
-
 // Global data storage
 Contact contacts[MAX];// Array to save all contact objects
 int count=0;// Counter: record current total contacts
-
 ContactNode* head=NULL;
+
+/**
+ * @brief Create empty contact node with dynamic memory allocation
+ * @return ContactNode* New node pointer; return NULL if malloc fails
+ */
+ContactNode* createNode(){
+	ContactNode* newNode=(ContactNode*)malloc(sizeof(ContactNode));
+	if (newNode == NULL)
+    {
+        printf("Memory allocation failed, create contact failed!\n");
+        return NULL;
+    }
+    newNode->next = NULL;
+    return newNode;
+}
 
 /**
  * @brief Validate phone number format
@@ -61,16 +64,6 @@ int checkPhone(char phone[]){
 	return 1;
 }
 
-ContactNode* createNode(){
-	ContactNode* newNode=(ContactNode*)malloc(sizeof(ContactNode));
-	if (newNode == NULL)
-    {
-        printf("Memory allocation failed, create contact failed!\n");
-        return NULL;
-    }
-    newNode->next = NULL;
-    return newNode;
-}
 
 /**
  * @brief Add a new contact to linked list
@@ -213,6 +206,18 @@ void countContacts(){
 	printf("\n================================\n");
 }
 
+void freeAllContacts(){
+	ContactNode* p=head;
+	while(p!=NULL){
+		ContactNode* temp=p;
+		p=p->next;
+		free(temp);
+	}
+	head=NULL;
+	count=0;
+	printf("All contact memory has been released successfully.\n");
+}
+
 /**
  * @brief Main program loop: print menu & handle user operation selection
  * @return int Program exit status, 0 = normal exit
@@ -258,6 +263,7 @@ int main(){
 			countContacts();
 			break;
 		case 0:
+			freeAllContacts();
 		    printf("Goodbye£¡\n");
 			return 0; 
 		default:
