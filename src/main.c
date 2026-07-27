@@ -25,7 +25,7 @@ typedef struct ContactNode{
 }ContactNode;
 
 // Global data storage
-Contact contacts[MAX];// Array to save all contact objects
+ContactNode contacts[MAX];// Array to save all contact objects
 int count=0;// Counter: record current total contacts
 ContactNode* head=NULL;
 
@@ -57,7 +57,7 @@ int checkPhone(char phone[]){
 	// Traverse every character to check all are digits
 	int k;
 	for(k=0;phone[k]!='\0';k++){
-		if(phone[k]<'\0'||phone[k]>'\9'){
+		if(phone[k]<'0'||phone[k]>'9'){
 			return 0;
 		}
 	}
@@ -78,7 +78,7 @@ void addContact(){
     printf("Please enter contact phone number:");
     scanf("%14s", newNode->phone);
 
-    if(checkphone(newNode->phone)==0){
+    if(checkPhone(newNode->phone)==0){
         printf("Invalid mobile number! Must be 11 digits. Addition failed!\n");
         free(newNode); 
         return;
@@ -112,8 +112,9 @@ void showAllContacts(){
 	ContactNode* p=head;
 	int index=1;
 	while(p!=NULL){
-		printf(Index %d | Name %s | Phone Number %d,index,p->name,p->phone);
+		printf("index %d | Name %s | Phone Number %s",index,p->name,p->phone);
 		p=p->next;
+		index++;
 	}
 	printf("\n===============================================\n");
 }
@@ -137,10 +138,11 @@ void searchContact(){
 	// Traverse all contacts to match name
 	ContactNode* p=head;
 	int isFind=0;
+	int count=1;
 	while(p!=NULL){
-		if(strcmp(contacts[i].name,searchName)==0){
+		if(strcmp(p->name,searchName)==0){
 			printf("\n Matching contact found£º\n");
-			printf("Index %d  Name: %s  Phone Number: %s\n",i+1,contacts[i].name,contacts[i].phone);
+			printf("index %d  Name: %s  Phone Number: %s\n",count,p->name,p->phone);
 			isFind=1; 
 		}
 		p=p->next;
