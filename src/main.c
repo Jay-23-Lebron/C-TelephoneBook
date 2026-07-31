@@ -120,6 +120,32 @@ void showAllContacts(){
 }
 
 /**
+ * @brief Batch formatted print all contacts (Formal report style)
+ */
+void batchPrintContacts(){
+	if(head==NULL){
+		printf("\n[Batch print] No contacts stored in list!\n");
+		return;
+	}
+	ContactNode* p=head;
+	int count=0;
+	
+	printf("\n===============================================\n");
+	printf("              BATCH CONTACT REPORT                 ");
+	printf("\n===============================================\n");
+	printf("%-4d | %-15s | %s\n","Index","Name","Phone Number");
+	printf("\n-----------------------------------------------\n");
+	while(p!=NULL){
+		printf("%-4d | %-15s | %s\n",count+1,p->name,p->phone);
+		count++;
+		p=p->next;
+	}
+	printf("\n-----------------------------------------------\n");
+	printf("Count Contact Quatity:%d\n",count);
+	printf("\n===============================================\n");
+}
+
+/**
  * @brief Search contact by full name, optimize empty & no-match prompt
  */
 void searchContact(){
@@ -235,7 +261,8 @@ int main(){
 	printf("         3.Edit Contact             \n");
 	printf("         4.Search Contact           \n");
 	printf("         5.Show All Contacts        \n");
-	printf("         6.Contacts Quantity Statistics\n");
+	printf("         6.Batch Print Contacts     \n");
+	printf("         7.Contacts Quantity Statistics\n");
 	printf("         0.Exit Contact List        \n");
 	printf("=======================================\n");
 	
@@ -262,6 +289,9 @@ int main(){
 		    showAllContacts();
 			break;
 		case 6:
+			batchPrintContacts();
+			break;
+		case 7:
 			countContacts();
 			break;
 		case 0:
