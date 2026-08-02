@@ -21,13 +21,13 @@
 typedef struct ContactNode{
 	char name[NAME_LEN];
 	char phone[PHONE_LEN];
-	struct ContactNode* next;
+	struct ContactNode *next;
 }ContactNode;
 
 // Global data storage
 ContactNode contacts[MAX];// Array to save all contact objects
 int count=0;// Counter: record current total contacts
-ContactNode* head=NULL;
+ContactNode *head=NULL;
 
 /**
  * @brief Create empty contact node with dynamic memory allocation
@@ -112,7 +112,7 @@ void showAllContacts(){
 	ContactNode* p=head;
 	int index=1;
 	while(p!=NULL){
-		printf("index %d | Name %s | Phone Number %s",index,p->name,p->phone);
+		printf("index %d | Name %s | Phone Number %s |",index,p->name,p->phone);
 		p=p->next;
 		index++;
 	}
@@ -133,7 +133,7 @@ void batchPrintContacts(){
 	printf("\n===============================================\n");
 	printf("              BATCH CONTACT REPORT                 ");
 	printf("\n===============================================\n");
-	printf("%-4d | %-15s | %s\n","Index","Name","Phone Number");
+	printf("%-4s | %-15s | %s\n","Index","Name","Phone Number");
 	printf("\n-----------------------------------------------\n");
 	while(p!=NULL){
 		printf("%-4d | %-15s | %s\n",count+1,p->name,p->phone);
@@ -141,8 +141,48 @@ void batchPrintContacts(){
 		p=p->next;
 	}
 	printf("\n-----------------------------------------------\n");
-	printf("Count Contact Quatity:%d\n",count);
+	printf("Count Contact Quantity:%d\n",count);
 	printf("\n===============================================\n");
+}
+
+void sortContactByName(){
+	if(head==NULL||head->next==NULL){
+		printf("Insufficient contacts for sorting!\n");
+		return;
+	}
+	
+	ContactNode *p=NULL;
+	ContactNode *q=NULL;
+	char tempName[20];
+	char tempPhone[12];
+	int count=0;
+	
+	p=head;
+	while(p!=NULL){
+		count++;
+		p=p->next;
+	}
+	
+	int i,j;
+	for(i=0;i<count-1;i++){
+		p=head;
+		for(j=0;j<count-1-i;j++){
+			q=p->next;
+			if(strcmp(p->name,q->name)>0){
+				strcpy(tempName,p->name);
+				strcpy(tempPhone,p->phone);
+				
+				strcpy(p->name,q->name);
+				strcpy(p->phone,q->phone);
+				
+				strcpy(q->name,tempName);
+				strcpy(q->phone,tempPhone);
+			}
+			p=p->next;
+		}
+	}
+	printf("Sort finished! Sorted by name(A~Z).\n");
+	showAllContacts();
 }
 
 /**
@@ -262,7 +302,8 @@ int main(){
 	printf("         4.Search Contact           \n");
 	printf("         5.Show All Contacts        \n");
 	printf("         6.Batch Print Contacts     \n");
-	printf("         7.Contacts Quantity Statistics\n");
+	printf("         7.sort contacts by name    \n");
+	printf("         8.Contacts Quantity Statistics\n");
 	printf("         0.Exit Contact List        \n");
 	printf("=======================================\n");
 	
@@ -292,6 +333,9 @@ int main(){
 			batchPrintContacts();
 			break;
 		case 7:
+			sortContactByName();
+			break;
+		case 8:
 			countContacts();
 			break;
 		case 0:
