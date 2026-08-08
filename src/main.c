@@ -274,6 +274,70 @@ void countContacts(){
 	printf("\n================================\n");
 }
 
+void binarySearchContact(){
+	if(head==NULL){
+		printf("Contact list is empty!\n");
+		return;
+	}
+	
+	int count=0;
+	ContactNode* p=head;
+	while(p!=NULL){
+		count++;
+		p=p->next;
+	}
+	
+	ContactNode** nameArr=(char**)malloc(count * sizeof(char*));
+	if(nameArr==NULL){
+		printf("Memory allocation failed!\n");
+		return;
+	}
+	
+	p=head;
+	int i;
+	for(i=0;i<count;i++){
+		nameArr[i]=p;
+		p=p->next;
+	}
+	
+	char targetName[20];
+	printf("Please input name to search:\n");
+	scanf("%s",targetName);
+	
+	int left=0;
+	int right=count-1;
+	int findIndex=-1;
+	
+	while(left<=right){
+		int mid=(left+right)/2;
+		int cmpRet=strcmp(nameArr[mid]->name,targetName);
+		
+		if(cmpRet==0){
+			findIndex=mid;
+			break;
+		}else if(cmpRet<0){
+			left=mid+1;
+		}else{
+			right=mid-1;
+		}
+	}
+	
+	if(findIndex!=-1){
+		p=head;
+		int i;
+		for(i=0;i<findIndex;i++){
+			p=p->next;
+		}
+		printf("======Found Contact======\n");
+		printf("Name:%s",p->name);
+		printf("Phone:%s",p->phone);
+	}else{
+		printf("No matching contact found!\n");
+	}
+	
+	free(nameArr);
+}
+
 void freeAllContacts(){
 	ContactNode* p=head;
 	while(p!=NULL){
@@ -304,6 +368,7 @@ int main(){
 	printf("         6.Batch Print Contacts     \n");
 	printf("         7.sort contacts by name    \n");
 	printf("         8.Contacts Quantity Statistics\n");
+	printf("         9.Binary Search contact(By Name)\n");
 	printf("         0.Exit Contact List        \n");
 	printf("=======================================\n");
 	
@@ -337,6 +402,9 @@ int main(){
 			break;
 		case 8:
 			countContacts();
+			break;
+		case 9:
+			binarySearchContact();
 			break;
 		case 0:
 			freeAllContacts();
