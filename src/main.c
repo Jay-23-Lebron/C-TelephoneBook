@@ -338,6 +338,22 @@ void binarySearchContact(){
 	free(nameArr);
 }
 
+void saveToFile(){
+	FILE* fp=fopen("../data/contact.txt","w");
+	
+	if(fp==NULL){
+		printf("File open failed!\n");
+		return;
+	}
+	
+	ContactNode* p=head;
+	while(p!=NULL){
+		fprintf(fp,"%s %s\n",p->name,p->phone);
+		p=p->next;
+	}
+	fclose(fp);
+}
+
 void freeAllContacts(){
 	ContactNode* p=head;
 	while(p!=NULL){
@@ -369,6 +385,7 @@ int main(){
 	printf("         7.sort contacts by name    \n");
 	printf("         8.Contacts Quantity Statistics\n");
 	printf("         9.Binary Search contact(By Name)\n");
+	printf("         10.Manual save contacts to contact.txt\n");
 	printf("         0.Exit Contact List        \n");
 	printf("=======================================\n");
 	
@@ -405,6 +422,10 @@ int main(){
 			break;
 		case 9:
 			binarySearchContact();
+			break;
+		case 10:
+			saveToFile();
+			printf("Manual save finished, saved to contact.txt\n");
 			break;
 		case 0:
 			freeAllContacts();
