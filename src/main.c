@@ -78,23 +78,26 @@ void addContact(){
     printf("Please enter contact phone number:");
     scanf("%14s", newNode->phone);
 
+    //Verify phone number format
     if(checkPhone(newNode->phone)==0){
         printf("Invalid mobile number! Must be 11 digits. Addition failed!\n");
-        free(newNode); 
+        free(newNode); //release memory to avoid leak
         return;
     }
 
     if(head == NULL)
     {
+    	//Empty list: new node acts as head
         head = newNode;
     }
     else
     {
         ContactNode* p = head;
+        //Traverse to the last node
         while(p->next != NULL) p = p->next;
-        p->next = newNode;
+        p->next = newNode;//Attach new node at list tail
     }
-    count++;
+    count++;//Update total contact number
     printf("Contact added successfully!\n");
 }
 
@@ -145,7 +148,12 @@ void batchPrintContacts(){
 	printf("\n===============================================\n");
 }
 
+/**
+ * @brief Sort all contacts alphabetically by contact name
+ * Implement bubble sort and arrange contacts from A to Z
+ */
 void sortContactByName(){
+	//Check whether there are at least two contacts to sort
 	if(head==NULL||head->next==NULL){
 		printf("Insufficient contacts for sorting!\n");
 		return;
@@ -158,16 +166,19 @@ void sortContactByName(){
 	int count=0;
 	
 	p=head;
+	//Calculate total number of contacts
 	while(p!=NULL){
 		count++;
 		p=p->next;
 	}
 	
 	int i,j;
+	//Bubble sort for contact list
 	for(i=0;i<count-1;i++){
 		p=head;
 		for(j=0;j<count-1-i;j++){
 			q=p->next;
+			//Swap data if names are in wrong alphabetical order
 			if(strcmp(p->name,q->name)>0){
 				strcpy(tempName,p->name);
 				strcpy(tempPhone,p->phone);
@@ -274,7 +285,13 @@ void countContacts(){
 	printf("\n================================\n");
 }
 
+/**
+ * @brief Binary search contact by contact name
+ * Copy linked list node pointers into an array for binary search.
+ * Reminder: The contact list must be sorted by name before calling this function.
+ */
 void binarySearchContact(){
+	//Check whether the contact list is empty
 	if(head==NULL){
 		printf("Contact list is empty!\n");
 		return;
@@ -282,11 +299,13 @@ void binarySearchContact(){
 	
 	int count=0;
 	ContactNode* p=head;
+	//Calculate total number of contacts
 	while(p!=NULL){
 		count++;
 		p=p->next;
 	}
 	
+	//Calculate array to store pointers of contact nodes
 	ContactNode** nameArr=(char**)malloc(count * sizeof(char*));
 	if(nameArr==NULL){
 		printf("Memory allocation failed!\n");
@@ -295,6 +314,7 @@ void binarySearchContact(){
 	
 	p=head;
 	int i;
+	//Copy node pointers from linked list to array
 	for(i=0;i<count;i++){
 		nameArr[i]=p;
 		p=p->next;
@@ -308,6 +328,7 @@ void binarySearchContact(){
 	int right=count-1;
 	int findIndex=-1;
 	
+	//Main loop of binary search
 	while(left<=right){
 		int mid=(left+right)/2;
 		int cmpRet=strcmp(nameArr[mid]->name,targetName);
@@ -325,6 +346,7 @@ void binarySearchContact(){
 	if(findIndex!=-1){
 		p=head;
 		int i;
+		//Locate the matched contact node
 		for(i=0;i<findIndex;i++){
 			p=p->next;
 		}
@@ -334,11 +356,16 @@ void binarySearchContact(){
 	}else{
 		printf("No matching contact found!\n");
 	}
-	
+	//Release dynamically allocated array memory
 	free(nameArr);
 }
 
+/**
+ * @brief Save all contacts from linked list to text file
+ * Write each contact's name and phone number into ../data/contact.txt
+ */
 void saveToFile(){
+	//Open file with write mode
 	FILE* fp=fopen("../data/contact.txt","w");
 	
 	if(fp==NULL){
@@ -347,15 +374,21 @@ void saveToFile(){
 	}
 	
 	ContactNode* p=head;
+	//Traverse list and write contact information into file
 	while(p!=NULL){
 		fprintf(fp,"%s %s\n",p->name,p->phone);
 		p=p->next;
 	}
+	//Close file to ensure data is saved
 	fclose(fp);
 }
 
+/**
+ * @brief Free memory of all contact nodes in linked list
+ */
 void freeAllContacts(){
 	ContactNode* p=head;
+	//Traverse and release each contact node
 	while(p!=NULL){
 		ContactNode* temp=p;
 		p=p->next;
