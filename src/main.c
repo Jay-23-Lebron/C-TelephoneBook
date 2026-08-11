@@ -384,6 +384,46 @@ void saveToFile(){
 }
 
 /**
+ * @brief Load contact data from local file automatically on program startup
+ */
+void loadFromFile(){
+	//Open file in read mode
+	FILE* fp=fopen("../data/contact.txt","r");
+	
+	//Check if file opens successfully
+	if(fp==NULL){
+		printf("Data file missing, initialize empty contact list.\n");
+		return;
+	}
+	
+	char name[20];
+	char phone[12];
+	
+	//Keep reading name and phone from the text file
+	while(fscanf(fp,"%s %s",name,phone)==2){
+		ContactNode* newNode=createNode();
+		
+		//Store information into node 
+		strcpy(newNode->name,name);
+		strcpy(newNode->phone,phone);
+		
+		//Append new node to linked list
+		if(head==NULL){
+			head=newNode;
+		}else{
+			ContactNode* p=head;
+			while(p->next!=NULL){
+				p=p->next;
+				p->next=newNode;
+			}
+		}
+		count++;
+	}
+	fclose(fp);//Release file resource
+	printf("Contacts loaded from file successfully.\n");
+}
+
+/**
  * @brief Free memory of all contact nodes in linked list
  */
 void freeAllContacts(){
@@ -404,9 +444,10 @@ void freeAllContacts(){
  * @return int Program exit status, 0 = normal exit
  */
 int main(){
+	loadFromFile();
+	
 	while(1){
 		
-	
 	printf("=======================================\n");
 	printf("===========Contact List Menu===========\n");
 	printf("         1.Create New Contact       \n");
